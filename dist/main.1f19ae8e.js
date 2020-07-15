@@ -118,8 +118,9 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"main.js":[function(require,module,exports) {
-var x = jQuery('.test');
-console.log(x.children());
+//$('.test1').find('.child')    //==>$('.test1').find.call($('.test1'),'.child'),$('.test1')返回的是整个jquery对象；
+var a = $('<p>123</div');
+$('.test4').append(a);
 },{}],"C:/Users/Administrator/AppData/Roaming/npm/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -148,7 +149,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57412" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50560" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

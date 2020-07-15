@@ -130,17 +130,31 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-window.jQuery = function (selectorOrArray) {
-  var elements;
+window.jQuery = function (selectorOrArrayOrTemplate) {
+  var elements; //全局变量
 
-  if (typeof selectorOrArray === 'string') {
-    elements = document.querySelectorAll(selectorOrArray);
-  } else if (selectorOrArray instanceof Array) {
-    elements = selectorOrArray;
+  if (typeof selectorOrArrayOrTemplate === 'string') {
+    if (selectorOrArrayOrTemplate[0] === '<') {
+      //创建div
+      elements = [createElement(selectorOrArrayOrTemplate)];
+    } else {
+      elements = document.querySelectorAll(selectorOrArrayOrTemplate);
+    }
+  } else if (selectorOrArrayOrTemplate instanceof Array) {
+    elements = selectorOrArrayOrTemplate;
+  }
+
+  function createElement(string) {
+    //创建容器;
+    var container = document.createElement('template');
+    container.innerHTML = string.trim();
+    return container.content.firstChild;
   }
 
   return {
-    oldApi: selectorOrArray.oldApi,
+    jquery: true,
+    elements: elements,
+    oldApi: selectorOrArrayOrTemplate.oldApi,
     find: function find(selector) {
       var array = [];
 
@@ -153,6 +167,36 @@ window.jQuery = function (selectorOrArray) {
       array.oldApi = this; //this指的就是之前定义的那个api
 
       return jQuery(array); //查找某些元素的子元素，并且找到后创建新的jquery返回，因为找到元素就是为了操作元素嘛；
+    },
+    get: function get(index) {
+      //查找元素的下标
+      return elements[index];
+    },
+    appendTo: function appendTo(node) {
+      if (node instanceof Element) {
+        this.each(function (el) {
+          return node.appendChild(el);
+        }); //遍历 elements，对每个 el 进行 node.appendChild 操作
+      } else if (node.jquery === true) {
+        this.each(function (el) {
+          return node.get(0).appendChild(el);
+        }); //遍历 elements，对每个 el 进行 node.get(0).appendChild(el))  操作
+      }
+    },
+    append: function append(children) {
+      var _this = this;
+
+      if (children instanceof Element) {
+        this.get(0).appendChild(children);
+      } else if (children instanceof HTMLCollection) {
+        for (var i = 0; i < children.length; i++) {
+          this.get(0).appendChild(children[i]);
+        }
+      } else if (children.jquery === true) {
+        children.each(function (node) {
+          return _this.get(0).appendChild(node);
+        });
+      }
     },
     end: function end() {
       return this.oldApi;
@@ -194,6 +238,8 @@ window.jQuery = function (selectorOrArray) {
     }
   }; // return api       //将api返回到jQuery()上；return整个对象，少写api这个变量更简洁；
 };
+
+window.$ = window.jQuery;
 },{}],"C:/Users/Administrator/AppData/Roaming/npm/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -222,7 +268,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57412" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50560" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
