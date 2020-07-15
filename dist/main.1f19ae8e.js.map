@@ -1,0 +1,1 @@
+{"version":3,"sources":["main.js"],"names":["x","jQuery","console","log","children"],"mappings":"AAAA,IAAMA,CAAC,GAACC,MAAM,CAAC,OAAD,CAAd;AAGAC,OAAO,CAACC,GAAR,CAAYH,CAAC,CAACI,QAAF,EAAZ","file":"main.1f19ae8e.js","sourceRoot":"..\\src","sourcesContent":["const x=jQuery('.test')\r\n\r\n\r\nconsole.log(x.children())\r\n\r\n\r\n\r\n"]}
